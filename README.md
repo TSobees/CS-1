@@ -15,6 +15,13 @@ The report covers:
 - Recommendations
 
 ---
+## 🛠 Tools & Technologies
+- Debian-based Kali Linux (Virtual Machine) 
+- Python
+- Scapy
+- PCAP Analysis
+- NIST SP 800-53 (AC-6)
+  ### N:B- All files in data folder must be opened in the Debain-based Virtual Environment
 
 ## 📂 Data Handling
 - **`dns.pcap`**: Original packet capture file  
