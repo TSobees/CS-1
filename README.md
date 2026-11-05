@@ -1,86 +1,58 @@
-# CS-1
-DNS Packet Analysis
+# DNS Packet Analysis
 
----
+[![Project checks](https://github.com/TSobees/CS-1/actions/workflows/checks.yml/badge.svg)](https://github.com/TSobees/CS-1/actions/workflows/checks.yml)
 
-## 📄 Analysis Report
-A detailed technical report is available here in the repository
+Analyze an existing packet capture using a portable command-line tool. It counts
+DNS queries and responses, summarizes queried names and response codes, and can
+write a separate filtered capture. It never captures live traffic or sends packets.
 
+## Quick start
 
-The report covers:
-- Methodology
-- Findings and anomalies
-- Security implications
-- Least privilege compliance
-- Recommendations
+Python 3.12 or 3.13:
 
----
-## 🛠 Tools & Technologies
-- Debian-based Kali Linux (Virtual Machine) 
-- Python
-- Scapy
-- PCAP Analysis
-- NIST SP 800-53 (AC-6)
-  ### N:B- All files in data folder must be opened in the Debain-based Virtual Environment
+```sh
+python -m venv .venv
+# Activate .venv, then:
+python -m pip install -r requirements.txt
+python -m dns_analysis
+python -m dns_analysis data/dns.cap --output-dir outputs/lab --write-filtered
+```
 
-## 📂 Data Handling
-- **`dns.pcap`**: Original packet capture file  
-- **`filtered_dns.pcap`**: DNS-only filtered packet capture  
+The default input is resolved relative to the package, not a personal filesystem path.
+Reports go to `outputs/dns_summary.json`, or the selected output folder. Filtering is
+optional and does not change the input. Offline reading does not require root,
+administrator privileges or a Kali VM. Scapy must support the input capture's link type.
 
-### Why Filtering Matters
-- Reduces exposure to unnecessary data
-- Improves analysis efficiency
-- Enforces least privilege by limiting access to sensitive traffic
-- Reflects real-world SOC analyst workflow
+## Structure
 
-> ⚠️ All PCAP files originate from a controlled lab environment and have been sanitized.
+```text
+dns_analysis/           Streaming parser and CLI
+scripts/                Friendly script launcher and original-path compatibility launcher
+data/                   Existing capture evidence, retained without modification
+report/                 Historical learning report
+tests/                  Generated example packets, overwrite protection and bundled input
+outputs/                Generated summaries and optional filtered capture, ignored by Git
+```
 
----
+The two existing files `data/dns.cap` and `data/filtered_dns.pcap` have identical
+contents in the original repository. Their names do not prove a filtering step was
+performed. Generate a new optional filtered output to reproduce the tool's behavior.
 
-## 🧠 Analysis Workflow
-1. Load raw PCAP file using Scapy  
-2. Filter DNS packets from network traffic  
-3. Save filtered DNS traffic to a separate PCAP  
-4. Extract DNS queries and responses  
-5. Identify anomalies such as failed resolutions and suspicious lookups  
+## Interpretation and evidence
 
----
+Read the [original report](report/DNS_Packet_Capture_Analysis_Report_Entry_1.md)
+as historical learning notes. Failed resolutions and repeated queries alone do not
+identify malicious domains or establish unauthorized activity. Filtering a capture
+does not itself implement access control or demonstrate NIST compliance. Public
+capture contents remain visible; review any future capture before publishing it.
 
-## 🔐 Security & Ethics
-- Analysis conducted in an **isolated virtual lab**
-- **Read-only access** enforced on packet capture files
-- No production or unauthorized networks were analyzed
-- Aligned with ethical cybersecurity and compliance standards
+## Tests
 
----
+```sh
+python -m unittest discover -s tests -v
+```
 
-## 📘 Compliance Alignment
-This project demonstrates practical application of:
-
-**NIST SP 800-53 – AC-6 (Least Privilege)** by:
-- Restricting access to packet data
-- Limiting exposure to only DNS-related traffic
-- Preventing unauthorized modification of capture files
-- Identifying potentially unauthorized DNS queries
-
----
-
-## 📊 Key Skills Demonstrated
-- DNS traffic analysis
-- PCAP handling and filtering
-- Python scripting with Scapy
-- Network security fundamentals
-- Least privilege enforcement
-- Security documentation and reporting
-- GRC-aware technical analysis
-
----
-
-## 📜 License
-This project is licensed under the **MIT License**.
-
----
-
-## 👤 Author
-**Sobanjo Oluwatosin M.**  
-Cybersecurity Enthusiast | SOC & GRC-Focused Analyst  
+Tests create local fictional packets without transmitting them. Reference:
+[Scapy usage documentation](https://scapy.readthedocs.io/en/stable/usage.html).
+MIT license. Author: Sobanjo Oluwatosin. AI assisted the portable parser, tests,
+evidence clarification and documentation in this revision.
