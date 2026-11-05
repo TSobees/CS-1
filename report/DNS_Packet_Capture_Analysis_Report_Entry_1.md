@@ -1,3 +1,5 @@
+> Historical learning report retained from the original project. The current tool analyzes saved captures offline. Packet filtering alone does not prove NIST AC-6 compliance, capture sanitization, access restrictions or malicious activity. Reproduce counts from the bundled capture rather than treating this narrative as a validated control assessment.
+
 # DNS Packet Capture (PCAP) Analysis Report  
 ### NIST SP 800-53 AC-6 (Least Privilege Compliance)
 
